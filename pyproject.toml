@@ -1,0 +1,16 @@
+[project]
+name = "data-explorer"
+version = "0.1.0"
+description = "Data exploration and analytical infrastructure for the Nexus project"
+readme = "README.md"
+authors = [
+    { name = "Jhonathan Domingues" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "psycopg[binary]>=3.3.6",
+    "python-dotenv>=1.2.3",
+]
+
+[tool.uv]
+package = false
