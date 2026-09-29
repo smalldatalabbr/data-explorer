@@ -1,0 +1,74 @@
+table dim_produto
+	lineageTag: 3fdac2f2-d025-4eac-8bb1-e0d9dfe58f1c
+
+	column produto_id
+		dataType: string
+		lineageTag: a02eebec-6f48-4cd2-8969-f4163e2e2160
+		summarizeBy: none
+		sourceColumn: produto_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria
+		dataType: string
+		lineageTag: b56b8e6c-dcbd-4de9-8cae-fc91d4c7b2a5
+		summarizeBy: none
+		sourceColumn: categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column peso_g
+		dataType: int64
+		formatString: 0
+		lineageTag: bf8b4026-64f0-46a0-928e-b464a6bbbdcb
+		summarizeBy: none
+		sourceColumn: peso_g
+
+		annotation SummarizationSetBy = Automatic
+
+	column comprimento_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 639765f6-d7d9-44d4-ada0-4ca9e4f4380f
+		summarizeBy: none
+		sourceColumn: comprimento_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column altura_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: aaf97e56-99a2-4cb0-82e7-178356e27b48
+		summarizeBy: none
+		sourceColumn: altura_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column largura_cm
+		dataType: int64
+		formatString: 0
+		lineageTag: 2e9c58f5-8710-4deb-a0ff-1748ff631158
+		summarizeBy: none
+		sourceColumn: largura_cm
+
+		annotation SummarizationSetBy = Automatic
+
+	column segmento
+		dataType: string
+		lineageTag: 378ce11d-9026-4d3a-b08d-8edbf8ce9012
+		summarizeBy: none
+		sourceColumn: segmento
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_produto = m
+		mode: import
+		source =
+				let
+				  Origem = PostgreSQL.Database("localhost:5432", "nexus"),
+				  #"Navegação 1" = Origem{[Schema = "dw", Item = "dim_produto"]}[Data]
+				in
+				  #"Navegação 1"
+
+	annotation PBI_ResultType = Table
+

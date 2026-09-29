@@ -1,0 +1,66 @@
+table fato_review
+	lineageTag: 86d08814-de00-44d5-9f3a-ba8763fc42bb
+
+	column review_id
+		dataType: string
+		lineageTag: 354dccce-4ab4-49c3-83a5-2c26358815d3
+		summarizeBy: none
+		sourceColumn: review_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column pedido_id
+		dataType: string
+		lineageTag: ec31a2e9-f7a6-4728-b777-c6af328134bb
+		summarizeBy: none
+		sourceColumn: pedido_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nota
+		dataType: int64
+		formatString: 0
+		lineageTag: 679af031-d971-4857-94f2-03e535578b3b
+		summarizeBy: sum
+		sourceColumn: nota
+
+		annotation SummarizationSetBy = Automatic
+
+	column titulo_comentario
+		dataType: string
+		lineageTag: 9c794e1f-de15-4a6a-8e4a-da369e57fbbb
+		summarizeBy: none
+		sourceColumn: titulo_comentario
+
+		annotation SummarizationSetBy = Automatic
+
+	column mensagem_comentario
+		dataType: string
+		lineageTag: a3ec9f73-4a52-4274-8d67-feee6b264956
+		summarizeBy: none
+		sourceColumn: mensagem_comentario
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_criacao
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 17c4ebbc-aa72-4133-9146-635c0c053fda
+		summarizeBy: none
+		sourceColumn: data_criacao
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition fato_review = m
+		mode: import
+		source =
+				let
+				  Origem = PostgreSQL.Database("localhost:5432", "nexus"),
+				  #"Navegação 1" = Origem{[Schema = "dw", Item = "fato_review"]}[Data]
+				in
+				  #"Navegação 1"
+
+	annotation PBI_ResultType = Table
+

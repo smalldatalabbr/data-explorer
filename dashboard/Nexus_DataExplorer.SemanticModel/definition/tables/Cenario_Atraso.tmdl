@@ -1,0 +1,26 @@
+table Cenario_Atraso
+	lineageTag: c90a7213-2c9f-42ee-9ad6-3d4428595098
+
+	measure 'Valor Cenario_Atraso' = SELECTEDVALUE('Cenario_Atraso'[Cenario_Atraso])
+		formatString: 0
+		lineageTag: 893f147c-8ea6-4f0e-bec8-d5f8d5db8af0
+
+	column Cenario_Atraso
+		formatString: 0
+		lineageTag: 9d3b2528-34a7-459d-ba14-cf3b0d4e7ee7
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition Cenario_Atraso = calculated
+		mode: import
+		source = GENERATESERIES(0, 10, 1)
+
+	annotation PBI_Id = 2a2cd0a9a5824a87a18224b18e92dcca
+

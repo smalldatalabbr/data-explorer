@@ -1,0 +1,68 @@
+relationship b8af5202-1de4-43b1-a421-9b81136581ee
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fato_item_pedido.data_limite_envio
+	toColumn: LocalDateTable_be810eed-163a-48ea-a6aa-7f58a77bf664.Date
+
+relationship 2ae294e4-6b28-4821-8b8c-c9333839bc70
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fato_pedido.data_aprovacao
+	toColumn: LocalDateTable_c1044bf3-22e5-446d-b209-5b104cf431ea.Date
+
+relationship 34c389f7-3b26-44bf-91aa-4b582bba8fb3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fato_pedido.data_envio
+	toColumn: LocalDateTable_33020959-5bd2-4eb1-890b-7e2ede7bce5f.Date
+
+relationship c14f6aea-d581-4308-920c-ebe2d2341a86
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fato_pedido.data_entrega
+	toColumn: LocalDateTable_548c90d8-5e5c-418d-946f-ddb9488598bf.Date
+
+relationship ff101d8f-dd21-4f4f-a5f1-6eac10cbdd04
+	joinOnDateBehavior: datePartOnly
+	fromColumn: fato_pedido.data_entrega_estimada
+	toColumn: LocalDateTable_012e7c8c-4f66-4d45-85c6-938486c13b97.Date
+
+relationship 309dd1da-aebf-4211-a8f4-57beab6ab330
+	fromColumn: fato_item_pedido.produto_id
+	toColumn: dim_produto.produto_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 898bb774-e1f4-4c87-8826-3559e770db47
+	crossFilteringBehavior: bothDirections
+	fromColumn: fato_item_pedido.pedido_id
+	toColumn: fato_pedido.pedido_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 464bd01a-5f8f-497e-808c-5caa529033a4
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fato_pedido.cliente_id
+	toColumn: dim_cliente.cliente_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship f2097f71-b2db-4b52-8532-216dd19de09d
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: fato_review.pedido_id
+	toColumn: fato_pedido.pedido_id
+
+	annotation PBI_IsFromSource = FS
+
+relationship 8416711e-21aa-4bbb-b1be-360e4723a35a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dim_calendario.Data
+	toColumn: LocalDateTable_b854e59c-920a-4cc7-9b06-27239293c9f6.Date
+
+relationship 011f609f-376a-7f6a-7f15-344145a78ea2
+	fromColumn: fato_pedido.data_compra
+	toColumn: dim_calendario.Data
+
+relationship eea8ddb6-d2b1-7554-10cd-8436fe987717
+	isActive: false
+	fromColumn: fato_review.data_criacao
+	toColumn: dim_calendario.Data
+

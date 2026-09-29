@@ -1,0 +1,83 @@
+table fato_item_pedido
+	lineageTag: 334926ac-1902-4e5d-bd96-4631648667b8
+
+	column pedido_id
+		dataType: string
+		lineageTag: 4f11cbd4-4d8d-4c40-913c-e22a728b369d
+		summarizeBy: none
+		sourceColumn: pedido_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column item_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2afadbfe-d95e-4c40-b856-691ae1418b11
+		summarizeBy: sum
+		sourceColumn: item_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column produto_id
+		dataType: string
+		lineageTag: 971038b4-216f-4e86-b8ec-76832452c5b9
+		summarizeBy: none
+		sourceColumn: produto_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vendedor_id
+		dataType: string
+		lineageTag: 1dad16c4-7086-4be8-93ac-4098a7cdc6d7
+		summarizeBy: none
+		sourceColumn: vendedor_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_limite_envio
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2228b929-149f-4f1e-89bb-b81971a5d8de
+		summarizeBy: none
+		sourceColumn: data_limite_envio
+
+		variation Variation
+			isDefault
+			relationship: b8af5202-1de4-43b1-a421-9b81136581ee
+			defaultHierarchy: LocalDateTable_be810eed-163a-48ea-a6aa-7f58a77bf664.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column preco
+		dataType: double
+		lineageTag: 161a582b-d07b-4303-805a-61bae4d000a0
+		summarizeBy: sum
+		sourceColumn: preco
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column frete
+		dataType: double
+		lineageTag: 69ec24f4-27ac-4027-8171-1b13fd36e6be
+		summarizeBy: sum
+		sourceColumn: frete
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition fato_item_pedido = m
+		mode: import
+		source =
+				let
+				  Origem = PostgreSQL.Database("localhost:5432", "nexus"),
+				  #"Navegação 1" = Origem{[Schema = "dw", Item = "fato_item_pedido"]}[Data]
+				in
+				  #"Navegação 1"
+
+	annotation PBI_ResultType = Table
+

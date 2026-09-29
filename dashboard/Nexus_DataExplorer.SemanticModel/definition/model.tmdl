@@ -1,0 +1,34 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["dim_cliente","dim_produto","fato_item_pedido","fato_pedido","fato_review","dim_calendario","Medidas"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table dim_cliente
+ref table dim_produto
+ref table fato_item_pedido
+ref table DateTableTemplate_4b9136b1-7778-4fa0-aad8-59400308e9d9
+ref table LocalDateTable_be810eed-163a-48ea-a6aa-7f58a77bf664
+ref table fato_pedido
+ref table LocalDateTable_c1044bf3-22e5-446d-b209-5b104cf431ea
+ref table LocalDateTable_33020959-5bd2-4eb1-890b-7e2ede7bce5f
+ref table LocalDateTable_548c90d8-5e5c-418d-946f-ddb9488598bf
+ref table LocalDateTable_012e7c8c-4f66-4d45-85c6-938486c13b97
+ref table fato_review
+ref table dim_calendario
+ref table LocalDateTable_b854e59c-920a-4cc7-9b06-27239293c9f6
+ref table Medidas
+ref table Cenario_Atraso
+ref table Cenario_Antecipado
+
+ref cultureInfo pt-BR
+

@@ -1,0 +1,138 @@
+table dim_calendario
+	lineageTag: eb46679b-4b2d-45a1-a06d-5ff702965013
+
+	column Data
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: a59dcca8-e83c-4fac-be1e-e39dd58e2930
+		summarizeBy: none
+		sourceColumn: Data
+
+		variation Variation
+			isDefault
+			relationship: 8416711e-21aa-4bbb-b1be-360e4723a35a
+			defaultHierarchy: LocalDateTable_b854e59c-920a-4cc7-9b06-27239293c9f6.'Hierarquia de datas'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 51d6b77b-a6bb-43bc-8654-e645ff4f9b08
+		summarizeBy: sum
+		sourceColumn: Ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column Mês
+		dataType: int64
+		formatString: 0
+		lineageTag: 7f5fa61c-0289-4601-8f34-156d5adc433e
+		summarizeBy: sum
+		sourceColumn: Mês
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Nome do Mês'
+		dataType: string
+		lineageTag: 39fc95e9-011f-400c-8c38-f976386649ff
+		summarizeBy: none
+		sourceColumn: Nome do Mês
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dia
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ec4c63d-338a-41dc-942c-7cfed46639ba
+		summarizeBy: sum
+		sourceColumn: Dia
+
+		annotation SummarizationSetBy = Automatic
+
+	column Trimestre
+		dataType: int64
+		formatString: 0
+		lineageTag: f05c7979-5559-4411-950b-cb31739022fd
+		summarizeBy: sum
+		sourceColumn: Trimestre
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_calendario = m
+		mode: import
+		source =
+				let
+				    DataMinima = List.Min(fato_pedido[data_compra]),
+				    DataMaxima = List.Max(fato_pedido[data_compra]),
+				
+				    DataInicio = Date.StartOfYear(DataMinima),
+				    DataFim = Date.EndOfYear(DataMaxima),
+				
+				    Duracao = Duration.Days(DataFim - DataInicio) + 1,
+				
+				    Fonte = List.Dates(
+				        DataInicio,
+				        Duracao,
+				        #duration(1, 0, 0, 0)
+				    ),
+				
+				    Calendario = Table.FromList(
+				        Fonte,
+				        Splitter.SplitByNothing(),
+				        {"Data"}
+				    ),
+				
+				    TipoAlterado = Table.TransformColumnTypes(
+				        Calendario,
+				        {{"Data", type date}}
+				    ),
+				
+				    #"Ano Inserido" =
+				        Table.AddColumn(
+				            TipoAlterado,
+				            "Ano",
+				            each Date.Year([Data]),
+				            Int64.Type
+				        ),
+				
+				    #"Mês Inserido" =
+				        Table.AddColumn(
+				            #"Ano Inserido",
+				            "Mês",
+				            each Date.Month([Data]),
+				            Int64.Type
+				        ),
+				
+				    #"Nome do Mês Inserido" =
+				        Table.AddColumn(
+				            #"Mês Inserido",
+				            "Nome do Mês",
+				            each Date.MonthName([Data]),
+				            type text
+				        ),
+				
+				    #"Dia Inserido" =
+				        Table.AddColumn(
+				            #"Nome do Mês Inserido",
+				            "Dia",
+				            each Date.Day([Data]),
+				            Int64.Type
+				        ),
+				
+				    #"Trimestre Inserido" =
+				        Table.AddColumn(
+				            #"Dia Inserido",
+				            "Trimestre",
+				            each Date.QuarterOfYear([Data]),
+				            Int64.Type
+				        )
+				in
+				    #"Trimestre Inserido"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

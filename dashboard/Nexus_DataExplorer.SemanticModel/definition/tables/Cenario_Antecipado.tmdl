@@ -1,0 +1,26 @@
+table Cenario_Antecipado
+	lineageTag: 3c377836-ae76-43b9-82e4-9bffa9545f79
+
+	measure 'Valor Cenario_Antecipado' = SELECTEDVALUE('Cenario_Antecipado'[Cenario_Antecipado])
+		formatString: 0
+		lineageTag: ad857bc7-8cd2-4f67-92d7-13cb6edf69a7
+
+	column Cenario_Antecipado
+		formatString: 0
+		lineageTag: a82f9429-963b-4895-87da-770cf228af76
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition Cenario_Antecipado = calculated
+		mode: import
+		source = GENERATESERIES(0, 10, 1)
+
+	annotation PBI_Id = b88232241241468b81a88db52f291713
+

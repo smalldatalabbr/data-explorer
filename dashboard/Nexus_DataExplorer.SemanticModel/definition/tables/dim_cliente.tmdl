@@ -1,0 +1,70 @@
+table dim_cliente
+	lineageTag: c1e26c57-b2de-4e91-a23b-687ea140ed7d
+
+	column cliente_id
+		dataType: string
+		lineageTag: d719a256-d648-4104-b30c-58ceeda3f446
+		summarizeBy: none
+		sourceColumn: cliente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cliente_unico_id
+		dataType: string
+		lineageTag: a17ce000-f1ca-4b42-bb2f-da2feab5ad81
+		summarizeBy: none
+		sourceColumn: cliente_unico_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column cep
+		dataType: string
+		lineageTag: 1413864a-7fb2-4e8c-9f74-ad9b5800379d
+		summarizeBy: none
+		sourceColumn: cep
+
+		annotation SummarizationSetBy = Automatic
+
+	column cidade
+		dataType: string
+		lineageTag: 4fb6afa6-5a75-4f7d-998c-ac841db894f2
+		summarizeBy: none
+		sourceColumn: cidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column uf
+		dataType: string
+		lineageTag: 2a05e81e-014b-483d-96b2-77cb66396076
+		summarizeBy: none
+		sourceColumn: uf
+
+		annotation SummarizationSetBy = Automatic
+
+	column estado
+		dataType: string
+		lineageTag: 59d98618-b63d-45d9-9dce-1a35d6d40f7a
+		summarizeBy: none
+		sourceColumn: estado
+
+		annotation SummarizationSetBy = Automatic
+
+	column regiao
+		dataType: string
+		lineageTag: 19f30169-6308-4a9b-9265-1883f69f77a9
+		summarizeBy: none
+		sourceColumn: regiao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_cliente = m
+		mode: import
+		source =
+				let
+				  Origem = PostgreSQL.Database("localhost:5432", "nexus"),
+				  #"Navegação 1" = Origem{[Schema = "dw", Item = "dim_cliente"]}[Data]
+				in
+				  #"Navegação 1"
+
+	annotation PBI_ResultType = Table
+

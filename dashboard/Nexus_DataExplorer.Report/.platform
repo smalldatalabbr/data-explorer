@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Nexus_DataExplorer"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "47cce77c-1451-4e86-ac5d-9bdf5d5323a2"
+  }
+}

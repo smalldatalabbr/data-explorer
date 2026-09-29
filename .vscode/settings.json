@@ -1,0 +1,24 @@
+{
+    "sqltools.connections": [
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Docker",
+            "database": "nexus",
+            "username": "nexus"
+        },
+        {
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "192.168.1.23",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "database": "nexus",
+            "username": "casaos",
+            "name": "Homelab"
+        }
+    ]
+}

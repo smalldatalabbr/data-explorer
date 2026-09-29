@@ -1,0 +1,245 @@
+table Medidas
+	lineageTag: fee4bf99-d587-4221-85a9-08935f2eed8a
+
+	measure 'Lead Time Medio' =
+			
+			CALCULATE(
+			    AVERAGE(fato_pedido[ciclo_operacional_dias]),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: 0
+		lineageTag: 68d40af5-55ca-4995-bdaa-0c7c74087709
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Variabilidade do Lead Time' =
+			
+			DIVIDE (
+			    STDEV.P (fato_pedido[ciclo_operacional_dias] ),
+			    AVERAGE ( fato_pedido[ciclo_operacional_dias] )
+			)
+		formatString: #,0%;-#,0%;#,0%
+		lineageTag: 95015d46-5f43-4fbd-92a6-b8add792bd26
+
+	measure 'Lead Time Medio Expedicao' =
+			
+			CALCULATE(
+			    AVERAGE(fato_pedido[tempo_ate_envio_dias]),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0.0
+		lineageTag: 2e3ea0e9-2148-402b-83cc-a3ef5296adde
+
+	measure 'Lead Time Medio Transporte' =
+			
+			CALCULATE(
+			    AVERAGE(fato_pedido[tempo_envio_entrega_dias]),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0.0
+		lineageTag: b7144b05-9feb-4eb8-bb67-3635d186c5ee
+
+	measure '% Pedidos Atrasados' =
+			
+			DIVIDE(
+			    [Pedidos com Atraso],
+			    [Qtde Pedidos Entregues]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 45bade1a-f1c6-45ca-b9a7-8774a7bac921
+
+	measure 'Pedidos com Atraso' =
+			
+			CALCULATE(
+			    COUNTROWS(fato_pedido),
+			    fato_pedido[entrega_atrasada] = TRUE(),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_envio]),
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0
+		lineageTag: 497d3aa8-82c1-4567-948e-199916c21721
+
+	measure 'Pedidos Avaliados' =
+			
+			CALCULATE (
+			    COUNTROWS (fato_review),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0
+		lineageTag: b969e9ba-1b6b-48b8-9bab-d15521f2e633
+
+	measure 'Nota Media' =
+			
+			CALCULATE(
+			    AVERAGE(fato_review[nota]),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0.00
+		lineageTag: 4f17cfc7-23e6-43ad-a6db-4bd9b68ded92
+
+	measure 'Pedidos sem Atraso' =
+			
+			CALCULATE(
+			    COUNTROWS(fato_pedido),
+			    fato_pedido[entrega_atrasada] = FALSE(),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_envio]),
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0
+		lineageTag: 6e8319f9-7284-4576-ad63-36171f76cdca
+
+	measure 'Total Reviews' =
+			
+			CALCULATE (
+			    COUNTROWS (fato_review),
+			    fato_pedido[status] = "delivered",
+			    NOT ISBLANK(fato_pedido[data_entrega])
+			)
+		formatString: #,0
+		lineageTag: b6094cef-4d74-4937-b836-423dc6ce9110
+
+	measure 'Qtde Pedidos Enviado' =
+			
+			CALCULATE(
+			    COUNTROWS(fato_pedido),
+			    fato_pedido[status] = "shipped"
+			)
+		formatString: #,0
+		lineageTag: 403d09b3-3dfb-4fbe-b664-60a40e8cfd1f
+
+	measure 'Qtde Pedidos Cancelado' =
+			
+			CALCULATE(
+			    COUNTROWS(fato_pedido),
+			    fato_pedido[status] = "canceled"
+			)
+		formatString: #,0
+		lineageTag: b45c610b-4d3a-4dbd-8af9-3c1860a74898
+
+	measure 'Qtde Pedidos em Processamento' =
+			
+			CALCULATE(
+			    COUNTROWS(fato_pedido),
+			    fato_pedido[status] IN {
+			        "created",
+			        "approved",
+			        "invoiced",
+			        "processing"
+			    }
+			)
+		formatString: 0
+		lineageTag: f23041c1-2050-4d9f-ba99-31361bca767e
+
+	measure 'Qtde Pedidos Entregues' = [Pedidos com Atraso] + [Pedidos sem Atraso]
+		formatString: #,0
+		lineageTag: 887a26bc-fffa-4236-903f-6c73239fb849
+
+	measure 'LT Médio Exibição' =
+			
+			FORMAT([Lead Time Medio], "0") & " dias"
+		lineageTag: ed1a0940-3aa5-4f6f-abed-728376e4a127
+
+	measure 'LT_Expedicao Exibicao' =
+			
+			FORMAT([Lead Time Medio Expedicao], "0") & " dias"
+		lineageTag: 0bd27544-7507-4b74-a06c-e1dade2042c3
+
+	measure 'LT_Transporte Exibicao' =
+			
+			FORMAT([Lead Time Medio Transporte], "0") & " dias"
+		lineageTag: 13d399fc-4168-4811-bebf-c2aeecc48ab7
+
+	measure 'Nota Simulada Atrasada' =
+			
+			CALCULATE(
+			    [Nota Media],
+			    FILTER(
+			        fato_pedido,
+			        fato_pedido[dias_atraso] = [Valor Cenario_Atraso]
+			    )
+			)
+		lineageTag: 2e18a1be-9bc2-4334-88a1-e12b546be342
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Pedidos Avaliados em Atraso' =
+			
+			DIVIDE(
+			    CALCULATE(
+			        COUNTROWS(fato_review),
+			        fato_pedido[status] = "delivered",
+			        NOT ISBLANK(fato_pedido[data_entrega]),
+			        fato_pedido[dias_atraso] > 0
+			    ),
+			    CALCULATE(
+			        COUNTROWS(fato_review),
+			        fato_pedido[status] = "delivered",
+			        NOT ISBLANK(fato_pedido[data_entrega])
+			    )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 86af0aec-05ef-4506-b9a7-3d2be020a8f3
+
+	measure 'Nota Simulada Antecipado' =
+			
+			CALCULATE(
+			    [Nota Media],
+			    FILTER(
+			        fato_pedido,
+			        fato_pedido[dias_atraso] = [Valor Cenario_Antecipado] * -1
+			    )
+			)
+		lineageTag: 19f625a9-ef7a-4c3b-8410-2a341f6f8081
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nota Média do Cenário' = ```
+			
+			CALCULATE(
+			    [Nota Media],
+			    FILTER(
+			        fato_pedido,
+			        fato_pedido[dias_atraso] = [Valor Cenario_Antecipado]
+			           
+			            ||
+			        fato_pedido[dias_atraso] = [Valor Cenario_Atraso]
+			
+			            ||
+			        fato_pedido[dias_atraso] = 0
+			    )
+			)
+			```
+		lineageTag: 789f90f3-c93f-41be-a605-534fcbc929bd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Coluna 1'
+		dataType: string
+		isHidden
+		lineageTag: 17005d6d-01a1-497f-ace4-72a7b22665d3
+		summarizeBy: none
+		sourceColumn: Coluna 1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Medidas = m
+		mode: import
+		source =
+				let
+				  Origem = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Coluna 1" = _t])
+				in
+				  Origem
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

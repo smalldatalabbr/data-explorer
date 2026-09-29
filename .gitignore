@@ -1,5 +1,6 @@
 # Python-generated files
-__pycache__/
+
+**pycache**/
 *.py[oc]
 build/
 dist/
@@ -7,10 +8,18 @@ wheels/
 *.egg-info
 
 # Virtual environments
+
 .venv/
 
 # Environment variables
+
 .env
 
 # Temporary data
+
 data/_tmp_extract/
+
+# Power BI
+
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
