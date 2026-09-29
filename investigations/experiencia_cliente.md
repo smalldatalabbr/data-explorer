@@ -97,11 +97,11 @@ A distribuição das avaliações complementa os resultados das notas médias:
 
 | Faixa de desvio | Pedidos | Nota 1 | Notas 4 e 5 |
 | --------------- | ------: | -----: | ----------: |
-| Sem atraso      |  88.221 |  6,51% |      82,81% |
+| Sem atraso      |  88.218 |  6,51% |      82,81% |
 | Até 3 dias      |   1.834 | 24,97% |      53,22% |
-| 4–7 dias        |   1.726 | 58,52% |      22,48% |
+| 4–7 dias        |   1.727 | 58,48% |      22,52% |
 | 8–14 dias       |   1.432 | 70,81% |      10,89% |
-| 15–30 dias      |     990 | 70,91% |       8,99% |
+| 15–30 dias      |     992 | 70,97% |       8,97% |
 | Mais de 30 dias |     322 | 63,66% |      22,98% |
 
 A proporção de avaliações com nota 1 aumenta de 6,51% nos pedidos sem atraso para aproximadamente 71% nas faixas de 8–14 e 15–30 dias. Em paralelo, a participação das notas 4 e 5 diminui de 82,81% para 8,99% na faixa de 15–30 dias.
